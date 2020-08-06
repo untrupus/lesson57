@@ -20,6 +20,11 @@ function App() {
 
     const [separate, setSeparate] = useState([]);
 
+    const [separateDetails, setSeparateDetails] = useState({
+        separatePercent: '',
+        separateDelivery: '',
+    });
+
     const newBill = event => {
         const attr = event.target.name;
         const billCopy = {...bill};
@@ -33,12 +38,27 @@ function App() {
         setSeparate(newSeparate);
     }
 
+    const newSeparate = (event, id) => {
+        // const index = separate.findIndex(p => p.id === id)
+        // const separateCopy = [...separate];
+        // const newField = {...separateCopy[index]};
+        // newField.name = event.target.value;
+        // setSeparate(separateCopy);
+        // console.log(newField);
+    }
+
     const itemRemove = id => {
         const index = separate.findIndex(p => p.id === id);
         const newSeparate = [...separate];
-        let dsfbdfb = newSeparate.splice(index, 1);
+        newSeparate.splice(index, 1);
         setSeparate(newSeparate);
-        console.log(dsfbdfb);
+    }
+
+    const newSeparateDetails = event => {
+        const attr = event.target.name;
+        const newDetails = {...separateDetails};
+        newDetails[attr] = event.target.value;
+        setSeparateDetails(newDetails);
     }
 
     const showResult = () => {
@@ -49,21 +69,21 @@ function App() {
     }
 
     const view = event => {
-        if(event.target.checked) {
+        if (event.target.checked) {
             setValue(event.target.value);
         }
     }
-
-
 
     return (
         <div className="App">
             <h4>Сумма заказа считается:</h4>
             <div>
-                <label><input type="radio" name="radio" value="equal" checked={value === "equal"} onChange={view}/>Поровну между всеми участниками</label>
+                <label><input type="radio" name="radio" value="equal" checked={value === "equal"} onChange={view}/>Поровну
+                    между всеми участниками</label>
             </div>
             <div>
-                <label><input type="radio" name="radio" value="separate" checked={value === "separate"} onChange={view}/>Отдельно для каждого</label>
+                <label><input type="radio" name="radio" value="separate" checked={value === "separate"}
+                              onChange={view}/>Отдельно для каждого</label>
             </div>
 
             {
@@ -87,6 +107,10 @@ function App() {
                         field={addSeparate}
                         separate={separate}
                         move={itemRemove}
+                        details={newSeparateDetails}
+                        percent={separateDetails.separatePercent}
+                        delivery={separateDetails.separateDelivery}
+                        names={newSeparate}
                     /> : null
             }
         </div>
